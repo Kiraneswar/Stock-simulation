@@ -66,7 +66,7 @@ const Login = () => {
 
                     <form onSubmit={handleLogin} className="space-y-6">
                         <div className="space-y-2">
-                            <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em] ml-1">Terminal Address</label>
+                            <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em] ml-1">Email</label>
                             <input 
                                 type="email" 
                                 value={email}
@@ -79,8 +79,8 @@ const Login = () => {
 
                         <div className="space-y-2">
                             <div className="flex justify-between items-center px-1">
-                                <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em]">Security Key</label>
-                                <button type="button" className="text-[0.65rem] text-primary/70 hover:text-primary transition-colors tracking-widest font-bold uppercase">Forgot Key?</button>
+                                <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em]">Password</label>
+                                <button type="button" className="text-[0.65rem] text-primary/70 hover:text-primary transition-colors tracking-widest font-bold uppercase">Forgot Password?</button>
                             </div>
                             <input 
                                 type="password" 
@@ -96,7 +96,7 @@ const Login = () => {
                             type="submit"
                             className="w-full group mt-4 flex items-center justify-between py-5 px-8 rounded-2xl bg-primary text-background font-black font-manrope hover:brightness-110 transition-all shadow-[0_10px_30px_-5px_#00d09c33]"
                         >
-                            <span className="uppercase tracking-widest">Authorize Access</span>
+                            <span className="uppercase tracking-widest">Sign In</span>
                             <ChevronRight className="group-hover:translate-x-1 transition-transform" />
                         </button>
                     </form>
@@ -104,7 +104,7 @@ const Login = () => {
                     <div className="mt-12 text-center">
                         <p className="text-sm text-on-surface-variant">
                             Don't have an identity yet? 
-                            <Link to="/register" className="ml-2 text-primary font-bold hover:underline transition-all">Apply for Access</Link>
+                            <Link to="/register" className="ml-2 text-primary font-bold hover:underline transition-all">Sign Up</Link>
                         </p>
                     </div>
 

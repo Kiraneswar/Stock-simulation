@@ -37,11 +37,11 @@ const Register = () => {
                 </div>
                 
                 <h1 className="text-6xl font-extrabold font-manrope leading-[1.1] mb-8 max-w-md tracking-tight">
-                    Join the Elite <span className="text-primary tracking-tighter">Cohort.</span>
+                    Join the Elite <span className="text-primary tracking-tighter">World.</span>
                 </h1>
                 
                 <p className="text-on-surface-variant text-lg max-w-sm mb-12 leading-relaxed">
-                    Deploy your virtual capital on India's most responsive trading engine. Experience institutional power today.
+                    Deploy your virtual capital on India's most responsive trading engine. Experience the latest trends in market today, not tomorrow.
                 </p>
 
                 <div className="flex items-center gap-4 text-sm font-medium text-on-surface-variant/60 uppercase tracking-widest">
@@ -54,7 +54,7 @@ const Register = () => {
             <div className="flex-1 flex items-center justify-center p-6 relative z-10">
                 <div className="w-full max-w-md glass rounded-[2.5rem] p-10 md:p-12 shadow-2xl">
                     <div className="mb-10 text-center md:text-left">
-                        <h2 className="text-3xl font-bold font-manrope tracking-tight mb-3">Initialize Identity</h2>
+                        <h2 className="text-3xl font-bold font-manrope tracking-tight mb-3">Sign Up</h2>
                         <p className="text-on-surface-variant text-sm">Submit your trader profile for immediate activation.</p>
                     </div>
 
@@ -67,7 +67,7 @@ const Register = () => {
 
                     <form onSubmit={handleRegister} className="space-y-5">
                         <div className="space-y-2">
-                            <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em] ml-1">Full Legal Name</label>
+                            <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em] ml-1">Username</label>
                             <input 
                                 type="text" 
                                 value={name}
@@ -79,7 +79,7 @@ const Register = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em] ml-1">Terminal Address</label>
+                            <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em] ml-1">Email Address</label>
                             <input 
                                 type="email" 
                                 value={email}
@@ -91,7 +91,7 @@ const Register = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em] ml-1">Security Key</label>
+                            <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em] ml-1">Password</label>
                             <input 
                                 type="password" 
                                 value={password}
@@ -104,9 +104,9 @@ const Register = () => {
 
                         <button 
                             type="submit"
-                            className="w-full group mt-4 flex items-center justify-between py-5 px-8 rounded-2xl bg-secondary text-background font-black font-manrope hover:brightness-110 transition-all shadow-[0_10px_30px_-5px_#bcc2ff33]"
+                            className="w-full group mt-4 flex items-center justify-between py-5 px-8 rounded-2xl bg-stone-200 text-background font-black font-manrope hover:brightness-110 transition-all shadow-[0_10px_30px_-5px_#bcc2ff33]"
                         >
-                            <span className="uppercase tracking-widest text-primary font-black">Initialize Identity</span>
+                            <span className="uppercase tracking-widest text-primary font-black">Sign Up</span>
                             <ChevronRight className="group-hover:translate-x-1 transition-transform text-primary" />
                         </button>
                     </form>
@@ -114,7 +114,7 @@ const Register = () => {
                     <div className="mt-12 text-center">
                         <p className="text-sm text-on-surface-variant">
                             Already authenticated? 
-                            <Link to="/login" className="ml-2 text-primary font-bold hover:underline transition-all">Access Terminal</Link>
+                            <Link to="/login" className="ml-2 text-primary font-bold hover:underline transition-all">Access Sign In</Link>
                         </p>
                     </div>
 
