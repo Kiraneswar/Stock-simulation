@@ -27,19 +27,17 @@ const Dashboard = () => {
         return () => socket.disconnect();
     }, [token]);
 
-    // Calculate Portfolio Summary (Rupee Context) - Added defensive checks
     const currentHoldings = portfolio?.holdings || [];
     let totalInvested = currentHoldings.reduce((acc, h) => acc + ((h.averagePrice || 0) * (h.quantity || 0)), 0);
     let currentValue = currentHoldings.reduce((acc, h) => {
         const stock = stocks.find(s => s._id === (h.stockId?._id || h.stockId));
         return acc + (stock ? stock.currentPrice * (h.quantity || 0) : (h.averagePrice || 0) * (h.quantity || 0));
     }, 0);
-    
+
     const totalPnL = currentValue - totalInvested;
     const pnlPercent = totalInvested > 0 ? (totalPnL / totalInvested) * 100 : 0;
     const isProfit = totalPnL >= 0;
 
-    // Format Rupee Utility
     const formatINR = (val) => {
         return val?.toLocaleString('en-IN', {
             maximumFractionDigits: 2,
@@ -60,7 +58,6 @@ const Dashboard = () => {
                 <p className="text-on-surface-variant text-lg">Detailed analytical overview of your Indian equity exposures.</p>
             </header>
 
-            {/* Premium Stats Row */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
                 <div className="bg-surface-container-low p-8 rounded-[2rem] border border-white/5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 blur-2xl rounded-full"></div>
@@ -93,7 +90,6 @@ const Dashboard = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Market Movers Section */}
                 <div className="lg:col-span-2 space-y-8">
                     <div className="flex justify-between items-center">
                         <h2 className="text-2xl font-bold font-manrope tracking-tight">Market Momentum</h2>
@@ -115,20 +111,20 @@ const Dashboard = () => {
                                             {((stock.currentPrice - stock.previousPrice) / stock.previousPrice * 100).toFixed(2)}%
                                         </div>
                                     </div>
-                                    
+
                                     <div className="h-20 w-full">
                                         <ResponsiveContainer width="100%" height="100%">
                                             <AreaChart data={stock.history || []}>
                                                 <defs>
                                                     <linearGradient id={`grad-${stock.symbol}`} x1="0" y1="0" x2="0" y2="1">
-                                                        <stop offset="5%" stopColor={isUp ? "#00D09C" : "#EB5B3C"} stopOpacity={0.3}/>
-                                                        <stop offset="95%" stopColor={isUp ? "#00D09C" : "#EB5B3C"} stopOpacity={0}/>
+                                                        <stop offset="5%" stopColor={isUp ? "#00D09C" : "#EB5B3C"} stopOpacity={0.3} />
+                                                        <stop offset="95%" stopColor={isUp ? "#00D09C" : "#EB5B3C"} stopOpacity={0} />
                                                     </linearGradient>
                                                 </defs>
-                                                <Area 
-                                                    type="monotone" 
-                                                    dataKey="price" 
-                                                    stroke={isUp ? "#00D09C" : "#EB5B3C"} 
+                                                <Area
+                                                    type="monotone"
+                                                    dataKey="price"
+                                                    stroke={isUp ? "#00D09C" : "#EB5B3C"}
                                                     strokeWidth={3}
                                                     fill={`url(#grad-${stock.symbol})`}
                                                     isAnimationActive={false}
@@ -146,12 +142,10 @@ const Dashboard = () => {
                         })}
                     </div>
                 </div>
-
-                {/* Account Summary Terminal */}
                 <div className="bg-surface-container shadow-2xl rounded-[2.5rem] p-8 h-full border border-white/5 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-40 h-40 bg-secondary/5 blur-3xl rounded-full"></div>
                     <h2 className="text-2xl font-bold font-manrope tracking-tight mb-8">Access Terminal</h2>
-                    
+
                     <div className="space-y-6">
                         <div className="p-6 bg-surface-container-low rounded-3xl border border-white/5">
                             <p className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Available to Trade</p>

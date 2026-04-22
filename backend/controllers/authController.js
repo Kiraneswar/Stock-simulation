@@ -6,8 +6,8 @@ const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
-// @desc Register user
-// @route POST /api/auth/register
+//Register user
+//POST /api/auth/register
 const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
     try {
@@ -18,8 +18,7 @@ const registerUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const user = await User.create({ name, email, password: hashedPassword });
-        
-        // Also create an empty portfolio for the user
+
         const Portfolio = require('../models/Portfolio');
         await Portfolio.create({ userId: user._id, holdings: [] });
 
@@ -37,8 +36,8 @@ const registerUser = async (req, res) => {
     }
 };
 
-// @desc Login user
-// @route POST /api/auth/login
+//Login user
+//POST /api/auth/login
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
     try {

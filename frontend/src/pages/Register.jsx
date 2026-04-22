@@ -25,21 +25,19 @@ const Register = () => {
 
     return (
         <div className="min-h-screen bg-background text-on-surface font-inter flex flex-col md:flex-row relative overflow-hidden">
-            {/* Ambient Background Pulse */}
             <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-secondary/10 rounded-full blur-[120px] pointer-events-none animate-pulse"></div>
             <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-            {/* Left Side: Brand & Visuals */}
             <div className="hidden md:flex flex-col justify-center p-16 md:w-1/2 relative z-10">
                 <div className="flex items-center gap-3 mb-10">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-secondary to-primary shadow-[0_0_20px_rgba(188,194,255,0.4)]"></div>
                     <span className="text-2xl font-extrabold tracking-tighter font-manrope uppercase">Obsidian</span>
                 </div>
-                
+
                 <h1 className="text-6xl font-extrabold font-manrope leading-[1.1] mb-8 max-w-md tracking-tight">
                     Join the Elite <span className="text-primary tracking-tighter">World.</span>
                 </h1>
-                
+
                 <p className="text-on-surface-variant text-lg max-w-sm mb-12 leading-relaxed">
                     Deploy your virtual capital on India's most responsive trading engine. Experience the latest trends in market today, not tomorrow.
                 </p>
@@ -50,7 +48,6 @@ const Register = () => {
                 </div>
             </div>
 
-            {/* Right Side: Auth Form */}
             <div className="flex-1 flex items-center justify-center p-6 relative z-10">
                 <div className="w-full max-w-md glass rounded-[2.5rem] p-10 md:p-12 shadow-2xl">
                     <div className="mb-10 text-center md:text-left">
@@ -60,18 +57,18 @@ const Register = () => {
 
                     {error && (
                         <div className="mb-6 p-4 bg-error/10 border border-error/20 text-error text-xs font-semibold rounded-2xl flex items-center gap-3 animate-in slide-in-from-top-2">
-                             <div className="w-2 h-2 rounded-full bg-error"></div>
-                             {error}
+                            <div className="w-2 h-2 rounded-full bg-error"></div>
+                            {error}
                         </div>
                     )}
 
                     <form onSubmit={handleRegister} className="space-y-5">
                         <div className="space-y-2">
                             <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em] ml-1">Username</label>
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 value={name}
-                                onChange={(e)=>setName(e.target.value)}
+                                onChange={(e) => setName(e.target.value)}
                                 className="w-full bg-surface-container border border-transparent focus:border-primary/50 px-5 py-4 rounded-2xl text-on-surface outline-none transition-all placeholder:text-on-surface-variant/30 text-sm"
                                 placeholder="e.g. Rahul Sharma"
                                 required
@@ -80,10 +77,10 @@ const Register = () => {
 
                         <div className="space-y-2">
                             <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em] ml-1">Email Address</label>
-                            <input 
-                                type="email" 
+                            <input
+                                type="email"
                                 value={email}
-                                onChange={(e)=>setEmail(e.target.value)}
+                                onChange={(e) => setEmail(e.target.value)}
                                 className="w-full bg-surface-container border border-transparent focus:border-primary/50 px-5 py-4 rounded-2xl text-on-surface outline-none transition-all placeholder:text-on-surface-variant/30 text-sm"
                                 placeholder="trader@obsidian.io"
                                 required
@@ -92,17 +89,17 @@ const Register = () => {
 
                         <div className="space-y-2">
                             <label className="text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-[0.2em] ml-1">Password</label>
-                            <input 
-                                type="password" 
+                            <input
+                                type="password"
                                 value={password}
-                                onChange={(e)=>setPassword(e.target.value)}
+                                onChange={(e) => setPassword(e.target.value)}
                                 className="w-full bg-surface-container border border-transparent focus:border-primary/50 px-5 py-4 rounded-2xl text-on-surface outline-none transition-all placeholder:text-on-surface-variant/30 text-sm font-mono"
                                 placeholder="••••••••••••"
                                 required
                             />
                         </div>
 
-                        <button 
+                        <button
                             type="submit"
                             className="w-full group mt-4 flex items-center justify-between py-5 px-8 rounded-2xl bg-stone-200 text-background font-black font-manrope hover:brightness-110 transition-all shadow-[0_10px_30px_-5px_#bcc2ff33]"
                         >
@@ -113,7 +110,7 @@ const Register = () => {
 
                     <div className="mt-12 text-center">
                         <p className="text-sm text-on-surface-variant">
-                            Already authenticated? 
+                            Already authenticated?
                             <Link to="/login" className="ml-2 text-primary font-bold hover:underline transition-all">Access Sign In</Link>
                         </p>
                     </div>

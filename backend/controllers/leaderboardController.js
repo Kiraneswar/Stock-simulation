@@ -2,19 +2,17 @@ const Portfolio = require('../models/Portfolio');
 const User = require('../models/User');
 const Stock = require('../models/Stock');
 
-// @desc Get leaderboard based on total portfolio value + balance
-// @route GET /api/leaderboard
+
 const getLeaderboard = async (req, res) => {
     try {
         const portfolios = await Portfolio.find({}).populate('holdings.stockId');
         const users = await User.find({}).select('name balance');
-        const stocks = await Stock.find({}); // Get current prices
+        const stocks = await Stock.find({});
 
-        // Calculate total worth for each user
         const leaderboard = users.map(user => {
             const userPort = portfolios.find(p => p.userId.toString() === user._id.toString());
             let portfolioValue = 0;
-            
+
             if (userPort) {
                 userPort.holdings.forEach(h => {
                     if (h.stockId) {
@@ -26,8 +24,7 @@ const getLeaderboard = async (req, res) => {
             }
 
             const totalWorth = user.balance + portfolioValue;
-            const profit = totalWorth - 1000000; // Starting balance assumed 1,000,000 (10 Lakhs)
-
+            const profit = totalWorth - 1000000;
             return {
                 _id: user._id,
                 name: user.name,

@@ -22,7 +22,6 @@ const init = (server) => {
 };
 
 const nifty200Stocks = [
-    // NIFTY 50 (Existing)
     { symbol: 'RELIANCE', name: 'Reliance Industries Ltd.', currentPrice: 2850.50 },
     { symbol: 'TCS', name: 'Tata Consultancy Services Ltd.', currentPrice: 3820.25 },
     { symbol: 'HDFCBANK', name: 'HDFC Bank Ltd.', currentPrice: 1450.15 },
@@ -73,8 +72,6 @@ const nifty200Stocks = [
     { symbol: 'SHREECEM', name: 'Shree Cement Ltd.', currentPrice: 25800.00 },
     { symbol: 'HDFCLIFE', name: 'HDFC Life Insurance Company Ltd.', currentPrice: 620.10 },
     { symbol: 'LICI', name: 'Life Insurance Corporation of India', currentPrice: 940.50 },
-    
-    // Additional NIFTY NEXT 50 & More (Expanding to 200+)
     { symbol: 'ABBOTINDIA', name: 'Abbott India Ltd.', currentPrice: 26500.00 },
     { symbol: 'ADANIENSOL', name: 'Adani Energy Solutions Ltd.', currentPrice: 1040.80 },
     { symbol: 'ADANIGREEN', name: 'Adani Green Energy Ltd.', currentPrice: 1850.20 },
@@ -124,9 +121,8 @@ const nifty200Stocks = [
     { symbol: 'VEDL', name: 'Vedanta Ltd.', currentPrice: 275.30 },
     { symbol: 'YESBANK', name: 'Yes Bank Ltd.', currentPrice: 24.15 },
     { symbol: 'ZOMATO', name: 'Zomato Ltd.', currentPrice: 185.45 },
-    
-    // More Stocks to reach 200+ (Generating generic but realistic NSE entries)
-    ...Array.from({length: 105}, (_, i) => ({
+
+    ...Array.from({ length: 105 }, (_, i) => ({
         symbol: `STOCK${i + 100}`,
         name: `NIFTY Sector Asset ${i + 100} Ltd.`,
         currentPrice: parseFloat((Math.random() * 5000 + 50).toFixed(2))
@@ -135,23 +131,23 @@ const nifty200Stocks = [
 
 const seedStocks = async () => {
     try {
-        await Stock.deleteMany({}); // Redo all stocks
+        await Stock.deleteMany({});
         const Portfolio = require('../models/Portfolio');
         const Transaction = require('../models/Transaction');
-        await Portfolio.deleteMany({}); // Clear old portfolios with broken stock IDs
-        await Transaction.deleteMany({}); // Clear old transactions with broken stock IDs
-        
+        await Portfolio.deleteMany({});
+        await Transaction.deleteMany({});
+
         const mapped = nifty200Stocks.map(s => ({
-            ...s, 
-            previousPrice: s.currentPrice, 
-            history: Array.from({length: 20}, (_, i) => ({
+            ...s,
+            previousPrice: s.currentPrice,
+            history: Array.from({ length: 20 }, (_, i) => ({
                 price: s.currentPrice + (Math.random() * 20 - 10),
                 timestamp: new Date(Date.now() - (20 - i) * 2000)
             }))
         }));
         await Stock.insertMany(mapped);
         console.log(`${nifty200Stocks.length} Indian Stocks seeded successfully.`);
-    } catch(e) {
+    } catch (e) {
         console.error("Seed error:", e.message);
     }
 }
@@ -167,15 +163,15 @@ const startMarketSimulation = async () => {
             const updatedStocks = [];
 
             for (let stock of stocks) {
-                const volatility = 0.005; 
+                const volatility = 0.005;
                 const changePercent = (Math.random() * volatility * 2) - volatility;
-                
+
                 stock.previousPrice = stock.currentPrice;
                 let newPrice = stock.currentPrice * (1 + changePercent);
                 if (newPrice < 1) newPrice = 1;
 
                 stock.currentPrice = parseFloat(newPrice.toFixed(2));
-                
+
                 stock.history.push({ price: stock.currentPrice, timestamp: new Date() });
                 if (stock.history.length > 50) stock.history.shift();
 

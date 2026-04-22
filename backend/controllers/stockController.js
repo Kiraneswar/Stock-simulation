@@ -1,7 +1,5 @@
 const Stock = require('../models/Stock');
 
-// @desc Get all stocks
-// @route GET /api/stocks
 const getStocks = async (req, res) => {
     try {
         const stocks = await Stock.find({});
@@ -11,8 +9,6 @@ const getStocks = async (req, res) => {
     }
 };
 
-// @desc Get stock by id
-// @route GET /api/stocks/:id
 const getStockById = async (req, res) => {
     try {
         const stock = await Stock.findById(req.params.id);

@@ -33,8 +33,8 @@ const Market = () => {
     const processedStocks = stocks.map(stock => ({
         ...stock,
         changePercent: ((stock.currentPrice - stock.previousPrice) / (stock.previousPrice || 1) * 100)
-    })).filter(s => 
-        s.symbol.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    })).filter(s =>
+        s.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
         s.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -44,7 +44,7 @@ const Market = () => {
     const StockCard = ({ stock, type }) => {
         const isUp = type === 'gainer';
         return (
-            <div 
+            <div
                 onClick={() => navigate(`/terminal?stock=${stock.symbol}`)}
                 className="group p-5 rounded-[2.5rem] bg-surface-container-low/40 border border-white/5 hover:border-primary/20 hover:bg-surface-container-high/60 cursor-pointer transition-all duration-500"
             >
@@ -62,10 +62,10 @@ const Market = () => {
                     <div className="hidden xl:block w-32 h-10">
                         <ResponsiveContainer width="100%" height="100%">
                             <AreaChart data={stock.history || []}>
-                                <Area 
-                                    type="monotone" 
-                                    dataKey="price" 
-                                    stroke={isUp ? "#00D09C" : "#EB5B3C"} 
+                                <Area
+                                    type="monotone"
+                                    dataKey="price"
+                                    stroke={isUp ? "#00D09C" : "#EB5B3C"}
                                     strokeWidth={2}
                                     fill="transparent"
                                     isAnimationActive={false}
@@ -97,21 +97,20 @@ const Market = () => {
                     <h1 className="text-5xl font-black font-manrope tracking-tighter">Market Pulse</h1>
                     <p className="text-sm text-on-surface-variant font-medium mt-2">Real-time analysis of Top 20 Gainers and Top 20 Losers across the Indian Index.</p>
                 </div>
-                
+
                 <div className="relative w-full md:w-96 group">
                     <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant/40 group-focus-within:text-primary transition-colors" size={20} />
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         placeholder="Search instrument..."
                         value={searchQuery}
-                        onChange={(e)=>setSearchQuery(e.target.value)}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full bg-surface-container-low border border-white/5 focus:border-primary/40 pl-14 pr-6 py-5 rounded-[2rem] text-sm outline-none transition-all placeholder:text-on-surface-variant/30 font-bold shadow-2xl"
                     />
                 </div>
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 flex-1 overflow-hidden">
-                {/* Gainers Column */}
                 <div className="flex flex-col gap-6 overflow-hidden">
                     <div className="flex items-center justify-between px-6 border-l-4 border-primary bg-primary/5 py-4 rounded-r-3xl">
                         <div className="flex items-center gap-3">
@@ -125,9 +124,8 @@ const Market = () => {
                     </div>
                 </div>
 
-                {/* Losers Column */}
                 <div className="flex flex-col gap-6 overflow-hidden">
-                     <div className="flex items-center justify-between px-6 border-l-4 border-error bg-error/5 py-4 rounded-r-3xl">
+                    <div className="flex items-center justify-between px-6 border-l-4 border-error bg-error/5 py-4 rounded-r-3xl">
                         <div className="flex items-center gap-3">
                             <TrendingDown className="text-error" size={24} />
                             <h2 className="text-2xl font-black font-manrope uppercase tracking-tighter text-error">Bearish Pressure</h2>
@@ -141,7 +139,7 @@ const Market = () => {
             </div>
 
             <div className="fixed bottom-12 right-12 z-50">
-                <button 
+                <button
                     onClick={() => navigate('/terminal')}
                     className="p-6 rounded-[2rem] bg-primary text-black shadow-[0_20px_50px_-10px_rgba(0,208,156,0.5)] flex items-center gap-4 hover:scale-110 transition-all font-black uppercase text-xs tracking-widest border-2 border-white/20 active:scale-95"
                 >

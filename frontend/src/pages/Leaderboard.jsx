@@ -38,7 +38,6 @@ const Leaderboard = () => {
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                {/* Community Rankings */}
                 <div className="lg:col-span-2 space-y-8">
                     <div className="flex justify-between items-center px-4">
                         <h2 className="text-2xl font-bold font-manrope tracking-tight">Trader Rankings</h2>
@@ -80,8 +79,6 @@ const Leaderboard = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* Secure Audit Trail (Transactions) */}
                 <div className="space-y-8">
                     <div className="flex justify-between items-center px-4">
                         <h2 className="text-2xl font-bold font-manrope tracking-tight">Audit Trail</h2>

@@ -9,20 +9,20 @@ const Portfolio = () => {
     const { token, user } = useAuthStore();
     const [portfolio, setPortfolio] = useState({ holdings: [] });
     const [stocks, setStocks] = useState([]);
-  
+
     useEffect(() => {
         const fetchPortfolio = async () => {
-             try {
-                const res = await axios.get('http://localhost:5000/api/portfolio', { headers: { Authorization: `Bearer ${token}` }});
+            try {
+                const res = await axios.get('http://localhost:5000/api/portfolio', { headers: { Authorization: `Bearer ${token}` } });
                 setPortfolio(res.data);
-             } catch(e) { console.error("Error fetching portfolio"); }
+            } catch (e) { console.error("Error fetching portfolio"); }
         }
         fetchPortfolio();
 
         const fetchStocks = async () => {
             try {
-              const res = await axios.get('http://localhost:5000/api/stocks', { headers: { Authorization: `Bearer ${token}` } });
-              setStocks(res.data);
+                const res = await axios.get('http://localhost:5000/api/stocks', { headers: { Authorization: `Bearer ${token}` } });
+                setStocks(res.data);
             } catch (e) { console.error("Failed to fetch initial stocks"); }
         };
         fetchStocks();
@@ -41,37 +41,36 @@ const Portfolio = () => {
 
     const currentHoldings = portfolio?.holdings || [];
     const enrichedHoldings = currentHoldings.map(h => {
-         const stockId = h.stockId?._id || h.stockId;
-         const currentStock = stocks.find(s => s._id === stockId);
-         const ltp = currentStock ? currentStock.currentPrice : h.averagePrice;
-         const value = ltp * h.quantity;
-         const cost = (h.averagePrice || 1) * h.quantity;
-         const profit = value - cost;
-         const profitPercent = cost > 0 ? (profit / cost) * 100 : 0;
-         
-         totalInvested += cost;
-         currentValue += value;
-         
-         return {
-             ...h,
-             symbol: currentStock?.symbol || 'HOLDING',
-             name: currentStock?.name || 'NIFTY Asset',
-             ltp,
-             value,
-             profit,
-             profitPercent
-         };
+        const stockId = h.stockId?._id || h.stockId;
+        const currentStock = stocks.find(s => s._id === stockId);
+        const ltp = currentStock ? currentStock.currentPrice : h.averagePrice;
+        const value = ltp * h.quantity;
+        const cost = (h.averagePrice || 1) * h.quantity;
+        const profit = value - cost;
+        const profitPercent = cost > 0 ? (profit / cost) * 100 : 0;
+
+        totalInvested += cost;
+        currentValue += value;
+
+        return {
+            ...h,
+            symbol: currentStock?.symbol || 'HOLDING',
+            name: currentStock?.name || 'NIFTY Asset',
+            ltp,
+            value,
+            profit,
+            profitPercent
+        };
     });
 
     const totalPnL = currentValue - totalInvested;
     const totalPnLPercent = totalInvested > 0 ? (totalPnL / totalInvested) * 100 : 0;
     const isProfit = totalPnL >= 0;
 
-    // Data for Allocation Chart
     const allocationData = enrichedHoldings.map(h => ({
         name: h.symbol,
         value: h.value
-    })).slice(0, 5); // Show top 5
+    })).slice(0, 5);
 
     const COLORS = ['#00D09C', '#bcc2ff', '#2d3449', '#1b1e28', '#11141d'];
 
@@ -88,11 +87,10 @@ const Portfolio = () => {
                 <p className="text-on-surface-variant text-lg">Cross-instrument performance monitoring and equity exposure metrics.</p>
             </header>
 
-            {/* High-Level Summaries */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
                 <div className="bg-surface-container-low p-8 rounded-[2.5rem] border border-white/5 col-span-1 lg:col-span-2 flex flex-col md:flex-row gap-8 items-center justify-between relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-3xl rounded-full"></div>
-                    
+
                     <div className="space-y-6 flex-1">
                         <div className="grid grid-cols-2 gap-8">
                             <div>
@@ -119,7 +117,7 @@ const Portfolio = () => {
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie
-                                    data={allocationData.length > 0 ? allocationData : [{name: 'Empty', value: 1}]}
+                                    data={allocationData.length > 0 ? allocationData : [{ name: 'Empty', value: 1 }]}
                                     innerRadius={50}
                                     outerRadius={80}
                                     paddingAngle={5}
@@ -131,7 +129,7 @@ const Portfolio = () => {
                                     ))}
                                     {allocationData.length === 0 && <Cell fill="#1b1e28" />}
                                 </Pie>
-                                <Tooltip 
+                                <Tooltip
                                     contentStyle={{ backgroundColor: '#11141d', border: 'none', borderRadius: '16px' }}
                                     itemStyle={{ color: '#00D09C' }}
                                 />
@@ -153,7 +151,6 @@ const Portfolio = () => {
                 </div>
             </div>
 
-            {/* Holdings Table */}
             <div className="space-y-6">
                 <div className="flex justify-between items-center px-4">
                     <h2 className="text-2xl font-bold font-manrope tracking-tight">Active Exposures</h2>
