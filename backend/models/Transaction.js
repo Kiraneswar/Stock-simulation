@@ -5,7 +5,7 @@ const TransactionSchema = new mongoose.Schema({
     stockId: { type: mongoose.Schema.Types.ObjectId, ref: 'Stock', required: true },
     type: { type: String, enum: ['buy', 'sell'], required: true },
     quantity: { type: Number, required: true },
-    price: { type: Number, required: true }, // Price at the time of transaction
+    price: { type: Number, required: true },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Transaction', TransactionSchema);
