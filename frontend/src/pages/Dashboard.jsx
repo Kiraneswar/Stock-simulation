@@ -93,7 +93,6 @@ const Dashboard = () => {
                 <div className="lg:col-span-2 space-y-8">
                     <div className="flex justify-between items-center">
                         <h2 className="text-2xl font-bold font-manrope tracking-tight">Market Momentum</h2>
-                        <button className="text-xs font-bold text-primary uppercase tracking-widest hover:underline transition-all">View All Index</button>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

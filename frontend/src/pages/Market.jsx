@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useAuthStore from '../store/authStore';
 import { io } from 'socket.io-client';
 import axios from 'axios';
-import { AreaChart, Area, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, ResponsiveContainer, YAxis } from 'recharts';
 import { TrendingUp, TrendingDown, Search, ArrowRight, Zap, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -38,8 +38,8 @@ const Market = () => {
         s.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const gainers = [...processedStocks].sort((a, b) => b.changePercent - a.changePercent).slice(0, 20);
-    const losers = [...processedStocks].sort((a, b) => a.changePercent - b.changePercent).slice(0, 20);
+    const gainers = [...processedStocks].sort((a, b) => b.changePercent - a.changePercent).slice(0, 30);
+    const losers = [...processedStocks].sort((a, b) => a.changePercent - b.changePercent).slice(0, 30);
 
     const StockCard = ({ stock, type }) => {
         const isUp = type === 'gainer';
@@ -66,10 +66,12 @@ const Market = () => {
                                     type="monotone"
                                     dataKey="price"
                                     stroke={isUp ? "#00D09C" : "#EB5B3C"}
-                                    strokeWidth={2}
-                                    fill="transparent"
+                                    strokeWidth={3}
+                                    fill={isUp ? "rgba(0, 208, 156, 0.1)" : "rgba(235, 91, 60, 0.1)"}
                                     isAnimationActive={false}
+                                    connectNulls
                                 />
+                                <YAxis hide domain={['auto', 'auto']} />
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
@@ -87,15 +89,15 @@ const Market = () => {
     };
 
     return (
-        <div className="animate-in fade-in duration-700 h-full flex flex-col gap-10 pb-20 font-inter">
+        <div className="animate-in fade-in duration-700 w-full flex flex-col gap-10 pb-20 font-inter">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-8 px-4">
                 <div>
                     <div className="flex items-center gap-2 mb-2">
                         <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
-                        <span className="text-[0.6rem] font-black text-primary uppercase tracking-[0.4em]">Market Intelligence Alpha</span>
+                        <span className="text-[0.6rem] font-black text-primary uppercase tracking-[0.4em]">Market Overview</span>
                     </div>
                     <h1 className="text-5xl font-black font-manrope tracking-tighter">Market Pulse</h1>
-                    <p className="text-sm text-on-surface-variant font-medium mt-2">Real-time analysis of Top 20 Gainers and Top 20 Losers across the Indian Index.</p>
+                    <p className="text-sm text-on-surface-variant font-medium mt-2">Real-time analysis of Top 30 Gainers and Top 30 Losers across the Indian Index.</p>
                 </div>
 
                 <div className="relative w-full md:w-96 group">
@@ -117,7 +119,7 @@ const Market = () => {
                             <TrendingUp className="text-primary" size={24} />
                             <h2 className="text-2xl font-black font-manrope uppercase tracking-tighter text-primary">Bullish Surge</h2>
                         </div>
-                        <span className="px-3 py-1 bg-primary/20 rounded-full text-[0.6rem] font-black text-primary uppercase tracking-widest">Top 20</span>
+                        <span className="px-3 py-1 bg-primary/20 rounded-full text-[0.6rem] font-black text-primary uppercase tracking-widest">Top 30</span>
                     </div>
                     <div className="flex-1 overflow-y-auto pr-2 space-y-4 custom-scrollbar">
                         {gainers.map(s => <StockCard key={s._id} stock={s} type="gainer" />)}
@@ -130,7 +132,7 @@ const Market = () => {
                             <TrendingDown className="text-error" size={24} />
                             <h2 className="text-2xl font-black font-manrope uppercase tracking-tighter text-error">Bearish Pressure</h2>
                         </div>
-                        <span className="px-3 py-1 bg-error/20 rounded-full text-[0.6rem] font-black text-error uppercase tracking-widest">Top 20</span>
+                        <span className="px-3 py-1 bg-error/20 rounded-full text-[0.6rem] font-black text-error uppercase tracking-widest">Top 30</span>
                     </div>
                     <div className="flex-1 overflow-y-auto pr-2 space-y-4 custom-scrollbar">
                         {losers.map(s => <StockCard key={s._id} stock={s} type="loser" />)}

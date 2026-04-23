@@ -122,11 +122,40 @@ const nifty200Stocks = [
     { symbol: 'YESBANK', name: 'Yes Bank Ltd.', currentPrice: 24.15 },
     { symbol: 'ZOMATO', name: 'Zomato Ltd.', currentPrice: 185.45 },
 
-    ...Array.from({ length: 105 }, (_, i) => ({
-        symbol: `STOCK${i + 100}`,
-        name: `NIFTY Sector Asset ${i + 100} Ltd.`,
-        currentPrice: parseFloat((Math.random() * 5000 + 50).toFixed(2))
-    }))
+    { symbol: 'NYKAA', name: 'FSN E-Commerce Ventures Ltd.', currentPrice: 160.40 },
+    { symbol: 'PAYTM', name: 'One 97 Communications Ltd.', currentPrice: 420.15 },
+    { symbol: 'DELHIVERY', name: 'Delhivery Ltd.', currentPrice: 450.30 },
+    { symbol: 'LICI', name: 'Life Insurance Corporation of India', currentPrice: 940.50 },
+    { symbol: 'AWL', name: 'Adani Wilmar Ltd.', currentPrice: 350.20 },
+    { symbol: 'SUZLON', name: 'Suzlon Energy Ltd.', currentPrice: 40.15 },
+    { symbol: 'IDFCFIRSTB', name: 'IDFC First Bank Ltd.', currentPrice: 80.45 },
+    { symbol: 'PNB', name: 'Punjab National Bank', currentPrice: 125.40 },
+    { symbol: 'JIOFIN', name: 'Jio Financial Services Ltd.', currentPrice: 350.45 },
+    { symbol: 'RVNL', name: 'Rail Vikas Nigam Ltd.', currentPrice: 250.20 },
+    { symbol: 'IRCON', name: 'Ircon International Ltd.', currentPrice: 220.10 },
+    { symbol: 'IREDA', name: 'Indian Renewable Energy Dev Agency', currentPrice: 170.50 },
+    { symbol: 'BSE', name: 'BSE Ltd.', currentPrice: 2450.30 },
+    { symbol: 'MCX', name: 'Multi Commodity Exchange of India', currentPrice: 3650.15 },
+    { symbol: 'CDSL', name: 'Central Depository Services Ltd.', currentPrice: 1850.40 },
+    { symbol: 'ANGELONE', name: 'Angel One Ltd.', currentPrice: 2850.25 },
+    { symbol: 'IDEA', name: 'Vodafone Idea Ltd.', currentPrice: 14.15 },
+    { symbol: 'YESBANK', name: 'Yes Bank Ltd.', currentPrice: 24.15 },
+    { symbol: 'SUVENPHAR', name: 'Suven Pharmaceuticals Ltd.', currentPrice: 720.50 },
+    { symbol: 'GLAND', name: 'Gland Pharma Ltd.', currentPrice: 1850.40 },
+    { symbol: 'LAURUSLABS', name: 'Laurus Labs Ltd.', currentPrice: 410.20 },
+    { symbol: 'BIOCON', name: 'Biocon Ltd.', currentPrice: 280.15 },
+    { symbol: 'AUFILIA', name: 'AU Small Finance Bank Ltd.', currentPrice: 620.40 },
+    { symbol: 'BANDHANBNK', name: 'Bandhan Bank Ltd.', currentPrice: 190.25 },
+    { symbol: 'CUB', name: 'City Union Bank Ltd.', currentPrice: 140.10 },
+    { symbol: 'KARURVYSYA', name: 'Karur Vysya Bank Ltd.', currentPrice: 180.30 },
+    { symbol: 'MAHABANK', name: 'Bank of Maharashtra', currentPrice: 60.45 },
+    { symbol: 'IOB', name: 'Indian Overseas Bank', currentPrice: 65.20 },
+    { symbol: 'UCOBANK', name: 'UCO Bank', currentPrice: 55.15 },
+    { symbol: 'SOUTHBANK', name: 'South Indian Bank Ltd.', currentPrice: 35.40 },
+    { symbol: 'FEDERALBNK', name: 'Federal Bank Ltd.', currentPrice: 155.10 },
+    { symbol: 'RBLBANK', name: 'RBL Bank Ltd.', currentPrice: 240.25 },
+    { symbol: 'CAMS', name: 'Computer Age Management Services', currentPrice: 2850.40 },
+    { symbol: 'HDFCAMC', name: 'HDFC Asset Management Co Ltd.', currentPrice: 3750.20 }
 ];
 
 const seedStocks = async () => {
@@ -147,6 +176,36 @@ const seedStocks = async () => {
         }));
         await Stock.insertMany(mapped);
         console.log(`${nifty200Stocks.length} Indian Stocks seeded successfully.`);
+
+        // Seed Bot Users
+        const User = require('../models/User');
+        const bots = [
+            { name: 'Institutional Alpha Bot', email: 'bot1@obsidian.com', password: 'hashed_password', balance: 1250000 },
+            { name: 'Momentum Scalper', email: 'bot2@obsidian.com', password: 'hashed_password', balance: 980000 },
+            { name: 'Arbitrage Node 01', email: 'bot3@obsidian.com', password: 'hashed_password', balance: 1100000 },
+            { name: 'HFT Liquidity Provider', email: 'bot4@obsidian.com', password: 'hashed_password', balance: 5000000 },
+            { name: 'Retain Value Bot', email: 'bot5@obsidian.com', password: 'hashed_password', balance: 850000 }
+        ];
+
+        for (const botData of bots) {
+            let bot = await User.findOne({ email: botData.email });
+            if (!bot) {
+                bot = await User.create(botData);
+            }
+
+            // Create initial holdings for bots to make leaderboard dynamic
+            let botPort = await Portfolio.findOne({ userId: bot._id });
+            if (!botPort) {
+                const randomStocks = await Stock.find().limit(5);
+                const holdings = randomStocks.map(s => ({
+                    stockId: s._id,
+                    quantity: Math.floor(Math.random() * 100) + 10,
+                    averagePrice: s.currentPrice
+                }));
+                await Portfolio.create({ userId: bot._id, holdings });
+            }
+        }
+
     } catch (e) {
         console.error("Seed error:", e.message);
     }

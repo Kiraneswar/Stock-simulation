@@ -25,7 +25,7 @@ const Navbar = () => {
     ) : null;
 
   return (
-    <div className="hidden lg:flex flex-col w-64 h-full bg-surface-container-low border-r border-[#3c4a43]/15 fixed inset-y-0 left-0 z-30 font-inter">
+    <div className="hidden lg:flex flex-col w-64 h-full bg-surface-container-low border-r border-[#3c4a43]/15 fixed inset-y-0 left-0 z-30 font-inter overflow-y-auto custom-scrollbar">
       <div className="p-10 mb-6">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-primary to-primary-container shadow-[0_0_15px_rgba(0,208,156,0.3)] flex items-center justify-center">
@@ -92,6 +92,14 @@ const Navbar = () => {
         </div>
         
         <div className="flex flex-col gap-2 mb-6">
+            <button 
+                onClick={handleLogout}
+                className="flex items-center gap-4 py-4 px-6 rounded-3xl bg-error/20 text-error hover:bg-error hover:text-white transition-all text-[0.7rem] font-black uppercase tracking-[0.2em] mb-4 shadow-xl shadow-error/10 border border-error/20"
+            >
+                <LogOut size={18} />
+                Logout System
+            </button>
+
             <button className="flex items-center gap-4 py-3 px-4 rounded-2xl text-on-surface-variant hover:bg-surface-container transition-all text-xs font-bold uppercase tracking-widest">
                 <Settings size={16} />
                 Terminal Config
@@ -103,13 +111,6 @@ const Navbar = () => {
                 </div>
                 Data Stream Active
             </div>
-            <button 
-                onClick={handleLogout}
-                className="flex items-center gap-4 py-3 px-4 rounded-2xl text-error hover:bg-error/10 transition-all text-xs font-bold uppercase tracking-widest"
-            >
-                <LogOut size={16} />
-                Terminate Session
-            </button>
         </div>
       </div>
     </div>

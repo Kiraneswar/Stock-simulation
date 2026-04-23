@@ -103,15 +103,16 @@ const Terminal = () => {
                 {/* Left: Visualization & Stats */}
                 <div className="space-y-8">
                     <div className="glass rounded-[3.5rem] p-10 border-white/5 relative overflow-hidden">
-                        <div className="flex justify-between items-start mb-10">
+                        <div className="flex flex-col gap-6 mb-10">
                             <div>
                                 <span className="text-[0.6rem] font-black text-primary uppercase tracking-[0.3em] mb-2 block">Premium Analytics</span>
-                                <h2 className="text-5xl font-black font-manrope tracking-tighter">{selectedStock.symbol}</h2>
+                                <h2 className="text-5xl font-black font-manrope tracking-tighter truncate">{selectedStock.symbol}</h2>
                                 <p className="text-sm text-on-surface-variant font-bold uppercase tracking-widest mt-1">{selectedStock.name}</p>
                             </div>
-                            <div className="text-right">
-                                <p className="text-4xl font-black font-manrope">₹{formatINR(selectedStock.currentPrice)}</p>
-                                <div className={`flex items-center justify-end gap-1 font-black ${isUp ? 'text-primary' : 'text-error'}`}>
+                            <div className="flex items-center gap-4">
+                                <p className="text-5xl font-black font-manrope">₹{formatINR(selectedStock.currentPrice)}</p>
+                                <div className={`px-4 py-2 rounded-2xl flex items-center gap-2 font-black text-sm ${isUp ? 'bg-primary/10 text-primary' : 'bg-error/10 text-error'}`}>
+                                    {isUp ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                                     {isUp ? '+' : ''}{changePercent}%
                                 </div>
                             </div>

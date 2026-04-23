@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useAuthStore from '../store/authStore';
 import axios from 'axios';
+import { io } from 'socket.io-client';
 import { Trophy, History as HistoryIcon, ArrowUpRight, ArrowDownRight, User } from 'lucide-react';
 
 const Leaderboard = () => {
@@ -20,6 +21,13 @@ const Leaderboard = () => {
             } catch (e) { console.error("Data fetch error"); }
         };
         fetchData();
+
+        const socket = io('http://localhost:5000');
+        socket.on('market-update', () => {
+            fetchData(); // Re-fetch leaderboard data on market update for live ranking change
+        });
+        
+        return () => socket.disconnect();
     }, [token]);
 
     const formatINR = (val) => val?.toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
@@ -83,34 +91,40 @@ const Leaderboard = () => {
                     <div className="flex justify-between items-center px-4">
                         <h2 className="text-2xl font-bold font-manrope tracking-tight">Audit Trail</h2>
                     </div>
-
-                    <div className="bg-surface-container shadow-2xl rounded-[2.5rem] p-8 border border-white/5 flex flex-col gap-6 max-h-[700px] overflow-y-auto custom-scrollbar">
-                        {transactions.length === 0 ? (
-                            <div className="py-12 text-center opacity-30">
-                                <HistoryIcon size={40} className="mx-auto mb-4" />
-                                <p className="text-xs font-bold uppercase tracking-widest">No Recent Logs</p>
-                            </div>
-                        ) : transactions.map(tx => (
-                            <div key={tx._id} className="p-6 bg-surface-container-low rounded-3xl border border-white/5 space-y-3 relative overflow-hidden group">
-                                <div className={`absolute top-0 right-0 w-1 h-full ${tx.type === 'buy' ? 'bg-primary' : 'bg-error'} opacity-50`}></div>
-                                <div className="flex justify-between items-start">
-                                    <div>
-                                        <p className="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-1">{tx.type} LOG</p>
-                                        <h4 className="text-lg font-black font-manrope">{tx.stockId?.symbol || 'NIFTY'}</h4>
-                                    </div>
-                                    <p className="text-[0.6rem] font-bold text-on-surface-variant/40">{new Date(tx.createdAt).toLocaleTimeString()}</p>
+                    <div className="bg-surface-container shadow-2xl rounded-[2.5rem] p-8 border border-white/5 h-[700px] flex flex-col overflow-hidden relative">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl rounded-full"></div>
+                        <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-6 pb-12">
+                            {transactions.length === 0 ? (
+                                <div className="py-12 text-center opacity-30">
+                                    <HistoryIcon size={40} className="mx-auto mb-4" />
+                                    <p className="text-xs font-bold uppercase tracking-widest">No Recent Logs</p>
                                 </div>
-                                <div className="flex justify-between items-end">
-                                    <div className="text-xs font-bold text-on-surface-variant">
-                                        <span className="text-on-surface">{tx.quantity}</span> Shares @ ₹{formatINR(tx.price)}
+                            ) : transactions.map(tx => (
+                                <div key={tx._id} className="p-6 bg-surface-container-low rounded-[2rem] border border-white/5 space-y-4 relative overflow-hidden group hover:bg-surface-container-high transition-all">
+                                    <div className={`absolute top-0 right-0 w-1 h-full ${tx.type === 'buy' ? 'bg-primary' : 'bg-error'} opacity-50`}></div>
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <p className="text-[0.6rem] font-black text-on-surface-variant uppercase tracking-[0.2em] mb-1">{tx.type} LOG</p>
+                                            <h4 className="text-xl font-black font-manrope tracking-tighter">{tx.stockId?.symbol || 'NIFTY'}</h4>
+                                        </div>
+                                        <p className="text-[0.6rem] font-bold text-on-surface-variant/40">{new Date(tx.createdAt).toLocaleTimeString()}</p>
                                     </div>
-                                    <div className="text-right">
-                                        <p className="text-[0.6rem] font-bold text-on-surface-variant uppercase tracking-widest">Total Value</p>
-                                        <p className="text-sm font-black font-manrope">₹{formatINR(tx.totalPrice)}</p>
+                                    <div className="flex flex-col gap-4">
+                                        <div className="text-[0.7rem] font-bold text-on-surface-variant flex items-center justify-between bg-white/5 p-3 rounded-xl">
+                                            <div className="flex gap-1.5 items-center">
+                                                <span className="text-on-surface font-black">{tx.quantity}</span> 
+                                                <span className="opacity-50 tracking-widest uppercase text-[0.5rem]">Shares @</span>
+                                                <span className="text-on-surface font-black">₹{formatINR(tx.price)}</span>
+                                            </div>
+                                        </div>
+                                        <div className="pt-3 border-t border-white/5 flex justify-between items-center">
+                                            <p className="text-[0.6rem] font-black text-on-surface-variant/40 uppercase tracking-[0.2em]">Net Value</p>
+                                            <p className={`text-lg font-black font-manrope ${tx.type === 'buy' ? 'text-primary' : 'text-error'}`}>₹{formatINR(tx.price * tx.quantity)}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

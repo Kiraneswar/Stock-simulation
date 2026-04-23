@@ -11,11 +11,9 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/stocks', require('./routes/stockRoutes'));
 app.use('/api/trade', require('./routes/tradeRoutes'));
@@ -23,12 +21,10 @@ app.use('/api/portfolio', require('./routes/portfolioRoutes'));
 app.use('/api/transactions', require('./routes/transactionRoutes'));
 app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
 
-// Root endpoint
 app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
-// Setup socket
 socketService.init(server);
 
 const PORT = process.env.PORT || 5000;
