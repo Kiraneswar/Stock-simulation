@@ -192,8 +192,7 @@ const seedStocks = async () => {
             if (!bot) {
                 bot = await User.create(botData);
             }
-
-            // Create initial holdings for bots to make leaderboard dynamic
+            
             let botPort = await Portfolio.findOne({ userId: bot._id });
             if (!botPort) {
                 const randomStocks = await Stock.find().limit(5);
